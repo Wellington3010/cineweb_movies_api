@@ -22,4 +22,8 @@ RUN dotnet publish "cineweb_movies_api.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "cineweb_movies_api.dll"]
+
+RUN useradd -u 2737 well
+USER well
+
+CMD ASPNETCORE_URLS="http://*:¨$PORT" dotnet cineweb_movies_api.dll
