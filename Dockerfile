@@ -26,4 +26,4 @@ COPY --from=publish /app/publish .
 RUN useradd -u 2737 well
 USER well
 
-CMD ASPNETCORE_URLS="http://*:¨$PORT" dotnet cineweb_movies_api.dll
+CMD ASPNETCORE_URLS="http://*:$PORT" dotnet cineweb_movies_api.dll
