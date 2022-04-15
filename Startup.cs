@@ -67,6 +67,7 @@ namespace cineweb_movies_api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(c => c.AllowAnyOrigin());
             app.UseSwagger();
             app.UseSwaggerUI(opt =>
             {
