@@ -23,6 +23,22 @@ namespace cineweb_movies_api.Controllers
         }
 
         [HttpGet]
+        [Route("home")]
+        public ActionResult GetHomeMovies()
+        {
+            List<UserMovieDTO> userMovies = new List<UserMovieDTO>();
+
+            var currentMovies = _moviesRepository.ListItems().Where(x => x.HomeMovie).ToList();
+
+            currentMovies.ForEach((item) =>
+            {
+                userMovies.Add(_mapper.Map<UserMovieDTO>(item));
+            });
+
+            return Json(userMovies);
+        }
+
+        [HttpGet]
         [Route("current")]
         public ActionResult GetCurrentMovies()
         {
