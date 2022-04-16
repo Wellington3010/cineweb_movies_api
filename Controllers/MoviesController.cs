@@ -44,7 +44,7 @@ namespace cineweb_movies_api.Controllers
         {
             List<UserMovieDTO> userMovies = new List<UserMovieDTO>();
 
-            var currentMovies = _moviesRepository.ListItems().Where(x => x.Date < DateTime.Now).ToList();
+            var currentMovies = _moviesRepository.ListItems().Where(x => x.Date < DateTime.Now && !x.HomeMovie).ToList();
 
             currentMovies.ForEach((item) =>
             {
@@ -60,7 +60,7 @@ namespace cineweb_movies_api.Controllers
         {
             List<UserMovieDTO> userMovies = new List<UserMovieDTO>();
 
-            var currentMovies = _moviesRepository.ListItems().Where(x => x.Date < date).ToList();
+            var currentMovies = _moviesRepository.ListItems().Where(x => x.Date < date && !x.HomeMovie).ToList();
 
             currentMovies.ForEach((item) =>
             {
@@ -76,7 +76,7 @@ namespace cineweb_movies_api.Controllers
         {
             List<UserMovieDTO> userMovies = new List<UserMovieDTO>();
 
-            var comingSoonMovies = _moviesRepository.ListItems().Where(x => x.Date > DateTime.Now).ToList();
+            var comingSoonMovies = _moviesRepository.ListItems().Where(x => x.Date > DateTime.Now && !x.HomeMovie).ToList();
 
             comingSoonMovies.ForEach((item) =>
             {
@@ -92,7 +92,7 @@ namespace cineweb_movies_api.Controllers
         {
             List<UserMovieDTO> userMovies = new List<UserMovieDTO>();
 
-            var comingSoonMovies = _moviesRepository.ListItems().Where(x => x.Date > date).ToList();
+            var comingSoonMovies = _moviesRepository.ListItems().Where(x => x.Date > date && !x.HomeMovie).ToList();
 
             comingSoonMovies.ForEach((item) =>
             {
