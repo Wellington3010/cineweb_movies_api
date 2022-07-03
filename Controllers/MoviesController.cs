@@ -16,6 +16,7 @@ namespace cineweb_movies_api.Controllers
     {
         private IBaseRepository<Movie> _moviesRepository;
         private IMapper _mapper;
+        
         public MoviesController(IBaseRepository<Movie> repo, IMapper mapper)
         {
             _moviesRepository = repo;
