@@ -19,7 +19,8 @@ namespace cineweb_movies_api.Repositories
 
         List<T> FindByGenre(string genre);
 
-        T FindByTitle(string title);
+        List<T> FindAll();
 
+        T FindByTitle(string title);
     }
 }

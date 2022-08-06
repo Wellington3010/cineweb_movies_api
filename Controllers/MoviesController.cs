@@ -165,6 +165,20 @@ namespace cineweb_movies_api.Controllers
         }
 
         [HttpGet]
+        [Route("admin/all-movies")]
+        public ActionResult AllMovies()
+        {
+            var adminMovies = new List<MovieDTO>();
+            var allMovies = _moviesRepository.FindAll();
+
+            allMovies.ForEach((item) =>
+            {
+                adminMovies.Add(_mapper.Map<MovieDTO>(item));
+            });
+            return Json(adminMovies);
+        }
+
+        [HttpGet]
         [Route("admin/find-by-movie-title")]
         public ActionResult FindByMovieTitle(string title)
         {

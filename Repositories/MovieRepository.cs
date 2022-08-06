@@ -52,5 +52,10 @@ namespace cineweb_movies_api.Repositories
         {
             return _movieContext.Movies.Where(x => x.Title == title).FirstOrDefault();
         }
+
+        public List<Movie> FindAll()
+        {
+            return _movieContext.Movies.ToList();
+        }
     }
 }
