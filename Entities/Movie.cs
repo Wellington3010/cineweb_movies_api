@@ -27,6 +27,9 @@ namespace cineweb_movies_api.Entities
         public string MoviePoster { get; set; }
 
         [Required]
-        public bool HomeMovie {get; set;}
+        public bool HomeMovie { get; set; }
+
+        [Required]
+        public bool Active { get; set; }
     }
 }

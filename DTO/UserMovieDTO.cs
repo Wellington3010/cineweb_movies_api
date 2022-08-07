@@ -16,5 +16,7 @@ namespace cineweb_movies_api.DTO
         public string MoviePoster { get; set; }
 
         public bool MovieHome { get; set; }
+
+        public bool Active { get; set; }
     }
 }
