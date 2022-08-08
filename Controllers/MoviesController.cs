@@ -122,7 +122,7 @@ namespace cineweb_movies_api.Controllers
 
         [HttpPost]
         [Route("admin/save-movie")]
-        public ActionResult SaveMovie(CreateMovieDTO movie)
+        public ActionResult SaveMovie([FromBody] CreateMovieDTO movie)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -135,7 +135,7 @@ namespace cineweb_movies_api.Controllers
 
         [HttpPost]
         [Route("admin/update-movie")]
-        public ActionResult UpdateMovie(MovieDTO movie)
+        public ActionResult UpdateMovie([FromBody] CreateMovieDTO movie)
         {
             var movieEntity = _mapper.Map<Movie>(movie);
             _moviesRepository.Update(movieEntity);
