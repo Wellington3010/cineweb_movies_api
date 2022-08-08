@@ -55,6 +55,14 @@ namespace cineweb_movies_api
                .ForMember(dest => dest.Id, src => src.MapFrom(x => x.Id.ToString()));
             });
 
+            services.AddCors(setup => {
+                    setup.AddPolicy("CorsPolicy", builder => {
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyOrigin();
+                });
+            });
+
             IMapper mapper = configuration.CreateMapper();
             services.AddSingleton(mapper);
         }
@@ -67,7 +75,7 @@ namespace cineweb_movies_api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(c => c.AllowAnyOrigin());
+            app.UseCors("CorsPolicy");
             app.UseSwagger();
             app.UseSwaggerUI(opt =>
             {
