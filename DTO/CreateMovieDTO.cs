@@ -17,5 +17,6 @@ namespace cineweb_movies_api.DTO
 
         public bool MovieHome { get; set; }
 
+        public bool Active { get; set; }
     }
 }
