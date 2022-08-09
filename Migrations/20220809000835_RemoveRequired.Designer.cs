@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using cineweb_movies_api.Context;
 
 namespace cineweb_movies_api.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    partial class MovieContextModelSnapshot : ModelSnapshot
+    [Migration("20220809000835_RemoveRequired")]
+    partial class RemoveRequired
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,8 +37,8 @@ namespace cineweb_movies_api.Migrations
                     b.Property<bool>("HomeMovie")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<byte[]>("MoviePoster")
-                        .HasColumnType("varbinary(4000)");
+                    b.Property<string>("MoviePoster")
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
