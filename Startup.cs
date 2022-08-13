@@ -16,6 +16,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Swashbuckle.Swagger;
 using Microsoft.EntityFrameworkCore;
+using cineweb_movies_api.Mapper;
 
 namespace cineweb_movies_api
 {
@@ -35,36 +36,23 @@ namespace cineweb_movies_api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo());
             });
+
             services.AddControllers();
+            services.AddScoped<IBaseRepository<Movie>, MovieRepository>();
+            services.AddAutoMapper(typeof(ConfigurationMapping));
+
             services.AddDbContext<MovieContext, MovieContext>(options =>
             {
                 options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddScoped<IBaseRepository<Movie>, MovieRepository>();
-
-            var configuration = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<UserMovieDTO, Movie>().ReverseMap();
-
-                cfg.CreateMap<CreateMovieDTO, Movie>().ReverseMap();
-
-                cfg.CreateMap<MovieDTO, Movie>()
-                .ForMember(dest => dest.Id, src => src.MapFrom(x => Guid.Parse(x.Id)));
-
-                cfg.CreateMap<Movie, MovieDTO>()
-               .ForMember(dest => dest.Id, src => src.MapFrom(x => x.Id.ToString()));
-            });
 
             services.AddCors(setup => {
-                    setup.AddPolicy("CorsPolicy", builder => {
+                setup.AddPolicy("CorsPolicy", builder => {
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
                     builder.AllowAnyOrigin();
                 });
             });
-
-            IMapper mapper = configuration.CreateMapper();
-            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
