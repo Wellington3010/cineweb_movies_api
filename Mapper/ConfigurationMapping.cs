@@ -13,11 +13,11 @@ namespace cineweb_movies_api.Mapper
     {
         public ConfigurationMapping()
         {
-            CreateMap<UserMovieDTO, Movie>().ForMember(x => x.MoviePoster, opt => opt.MapFrom(y => Encoding.ASCII.GetBytes(y.MoviePoster)));
-            CreateMap<Movie, UserMovieDTO>().ForMember(x => x.MoviePoster, opt => opt.MapFrom(y => Encoding.ASCII.GetString(y.MoviePoster)));
+            CreateMap<UserMovieDTO, Movie>().ForMember(x => x.MoviePoster, opt => opt.Ignore());
+            CreateMap<CreateMovieDTO, Movie>().ForMember(x => x.MoviePoster, opt => opt.Ignore());
 
-            CreateMap<CreateMovieDTO, Movie>().ForMember(x => x.MoviePoster, opt => opt.MapFrom(y => Encoding.ASCII.GetBytes(y.MoviePoster)));
-            CreateMap<Movie, CreateMovieDTO>().ForMember(x => x.MoviePoster, opt => opt.MapFrom(y => Encoding.ASCII.GetString(y.MoviePoster)));
+            CreateMap<Movie, UserMovieDTO>().ForMember(x => x.MoviePoster, opt => opt.MapFrom(y => "data:image/webp;base64," + Convert.ToBase64String(y.MoviePoster)));
+            CreateMap<Movie, CreateMovieDTO>().ForMember(x => x.MoviePoster, opt => opt.MapFrom(y => "data:image/webp;base64," + Convert.ToBase64String(y.MoviePoster)));
 
             CreateMap<MovieDTO, Movie>()
             .ForMember(dest => dest.Id, src => src.MapFrom(x => Guid.Parse(x.Id)));

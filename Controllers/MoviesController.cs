@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace cineweb_movies_api.Controllers
@@ -130,6 +131,8 @@ namespace cineweb_movies_api.Controllers
 
             var movieEntity = _mapper.Map<Movie>(movie);
             movieEntity.Id = Guid.NewGuid();
+            var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(movie.MoviePoster, "");
+            movieEntity.MoviePoster = Convert.FromBase64String(data);
             _moviesRepository.AddItem(movieEntity);
             return Ok();
         }
