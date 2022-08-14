@@ -23,7 +23,8 @@ namespace cineweb_movies_api.Mapper
             .ForMember(dest => dest.Id, src => src.MapFrom(x => Guid.Parse(x.Id)));
 
             CreateMap<Movie, MovieDTO>()
-           .ForMember(dest => dest.Id, src => src.MapFrom(x => x.Id.ToString()));
+           .ForMember(dest => dest.Id, src => src.MapFrom(x => x.Id.ToString()))
+           .ForMember(x => x.MoviePoster, opt => opt.MapFrom(y => "data:image/webp;base64," + Convert.ToBase64String(y.MoviePoster)));
         }
     }
 }
