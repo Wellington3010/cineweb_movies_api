@@ -13,7 +13,7 @@ namespace cineweb_movies_api.DTO
 
         public string Genre { get; set; }
 
-        public bool MovieHome { get; set; }
+        public bool HomeMovie { get; set; }
 
         public string MoviePoster { get; set; }
 
