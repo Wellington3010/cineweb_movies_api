@@ -24,6 +24,9 @@ namespace cineweb_movies_api.Entities
         public string Genre { get; set; }
 
         public byte[] MoviePoster { get; set; }
+        
+        [Required]
+        public string Sinopse { get; set; }
 
         [Required]
         public bool HomeMovie { get; set; }
