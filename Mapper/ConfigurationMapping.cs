@@ -19,6 +19,8 @@ namespace cineweb_movies_api.Mapper
             CreateMap<Movie, UserMovieDTO>().ForMember(x => x.MoviePoster, opt => opt.MapFrom(y => "data:image/webp;base64," + Convert.ToBase64String(y.MoviePoster)));
             CreateMap<Movie, CreateMovieDTO>().ForMember(x => x.MoviePoster, opt => opt.MapFrom(y => "data:image/webp;base64," + Convert.ToBase64String(y.MoviePoster)));
 
+            CreateMap<UpdateMovieDTO, Movie>().ForMember(x => x.MoviePoster, opt => opt.Ignore());
+
             CreateMap<MovieDTO, Movie>()
             .ForMember(dest => dest.Id, src => src.MapFrom(x => Guid.Parse(x.Id)));
 

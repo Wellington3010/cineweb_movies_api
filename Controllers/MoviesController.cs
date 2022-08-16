@@ -134,24 +134,30 @@ namespace cineweb_movies_api.Controllers
             var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(movie.MoviePoster, "");
             movieEntity.MoviePoster = Convert.FromBase64String(data);
             _moviesRepository.AddItem(movieEntity);
-            return Ok();
+            return Json(true);
         }
 
         [HttpPost]
         [Route("admin/update-movie")]
-        public ActionResult UpdateMovie([FromBody] CreateMovieDTO movie)
+        public ActionResult UpdateMovie([FromBody] UpdateMovieDTO movie)
         {
             var movieEntity = _mapper.Map<Movie>(movie);
-            _moviesRepository.Update(movieEntity);
-            return Ok();
+            var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(movie.MoviePoster, "");
+            movieEntity.MoviePoster = Convert.FromBase64String(data);
+            var Id = _moviesRepository.FindByTitle(movie.OldTitle).Id;
+            _moviesRepository.RemoveById(Id);
+            movieEntity.Id = Id;
+            _moviesRepository.AddItem(movieEntity);
+            return Json(true);
         }
 
         [HttpPost]
         [Route("admin/delete-movie")]
-        public ActionResult DeleteMovieById(Guid id)
+        public ActionResult DeleteMovieById([FromBody] DeleteMovieDTO movie)
         {
-            _moviesRepository.RemoveById(id);
-            return Ok();
+            var Id = _moviesRepository.FindByTitle(movie.OldTitle).Id;
+            _moviesRepository.RemoveById(Id);
+            return Json(true);
         }
 
         [HttpGet]
