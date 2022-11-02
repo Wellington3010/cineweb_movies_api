@@ -12,6 +12,9 @@ namespace cineweb_movies_api.Context
         {
         }
 
-        public virtual DbSet<Movie> Movies { get; set; }
+        public virtual DbSet<Filme> Movies { get; set; }
+
+        public virtual DbSet<Ingresso> Ingressos { get; set; }
+
     }
 }

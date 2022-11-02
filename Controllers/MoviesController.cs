@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace cineweb_movies_api.Controllers
 {
@@ -16,10 +14,10 @@ namespace cineweb_movies_api.Controllers
     [Route("movies")]
     public class MoviesController : Controller
     {
-        private IBaseRepository<Movie> _moviesRepository;
+        private IBaseRepository<Filme> _moviesRepository;
         private IMapper _mapper;
         
-        public MoviesController(IBaseRepository<Movie> repo, IMapper mapper)
+        public MoviesController(IBaseRepository<Filme> repo, IMapper mapper)
         {
             _moviesRepository = repo;
             _mapper = mapper;
@@ -47,7 +45,7 @@ namespace cineweb_movies_api.Controllers
         {
             List<UserMovieDTO> userMovies = new List<UserMovieDTO>();
 
-            var currentMovies = _moviesRepository.ListItems().Where(x => x.Date < DateTime.Now && !x.HomeMovie).ToList();
+            var currentMovies = _moviesRepository.ListItems().Where(x => x.Data < DateTime.Now && !x.HomeMovie).ToList();
 
             currentMovies.ForEach((item) =>
             {
@@ -63,7 +61,7 @@ namespace cineweb_movies_api.Controllers
         {
             List<UserMovieDTO> userMovies = new List<UserMovieDTO>();
 
-            var currentMovies = _moviesRepository.ListItems().Where(x => x.Date < date && !x.HomeMovie).ToList();
+            var currentMovies = _moviesRepository.ListItems().Where(x => x.Data < date && !x.HomeMovie).ToList();
 
             currentMovies.ForEach((item) =>
             {
@@ -79,7 +77,7 @@ namespace cineweb_movies_api.Controllers
         {
             List<UserMovieDTO> userMovies = new List<UserMovieDTO>();
 
-            var comingSoonMovies = _moviesRepository.ListItems().Where(x => x.Date > DateTime.Now && !x.HomeMovie).ToList();
+            var comingSoonMovies = _moviesRepository.ListItems().Where(x => x.Data > DateTime.Now && !x.HomeMovie).ToList();
 
             comingSoonMovies.ForEach((item) =>
             {
@@ -95,7 +93,7 @@ namespace cineweb_movies_api.Controllers
         {
             List<UserMovieDTO> userMovies = new List<UserMovieDTO>();
 
-            var comingSoonMovies = _moviesRepository.ListItems().Where(x => x.Date > date && !x.HomeMovie).ToList();
+            var comingSoonMovies = _moviesRepository.ListItems().Where(x => x.Data > date && !x.HomeMovie).ToList();
 
             comingSoonMovies.ForEach((item) =>
             {
@@ -110,9 +108,9 @@ namespace cineweb_movies_api.Controllers
         public ActionResult GetMoviesByParameter(string parameter, string parameterType)
         {
             List<UserMovieDTO> userMovies = new List<UserMovieDTO>();
-            var dictionaryMovies = new Dictionary<string, List<Movie>>();
-            dictionaryMovies.Add("title", _moviesRepository.ListItems().Where(x => x.Title == parameter).ToList());
-            dictionaryMovies.Add("genre", _moviesRepository.ListItems().Where(x => x.Genre == parameter).ToList());
+            var dictionaryMovies = new Dictionary<string, List<Filme>>();
+            dictionaryMovies.Add("Titulo", _moviesRepository.ListItems().Where(x => x.Titulo == parameter).ToList());
+            dictionaryMovies.Add("Genero", _moviesRepository.ListItems().Where(x => x.Genero == parameter).ToList());
 
             dictionaryMovies[parameterType].ForEach((item) =>
             {
@@ -129,10 +127,10 @@ namespace cineweb_movies_api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var movieEntity = _mapper.Map<Movie>(movie);
+            var movieEntity = _mapper.Map<Filme>(movie);
             movieEntity.Id = Guid.NewGuid();
-            var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(movie.MoviePoster, "");
-            movieEntity.MoviePoster = Convert.FromBase64String(data);
+            var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(movie.Poster, "");
+            movieEntity.Poster = Convert.FromBase64String(data);
             _moviesRepository.AddItem(movieEntity);
             return Json(true);
         }
@@ -141,10 +139,10 @@ namespace cineweb_movies_api.Controllers
         [Route("admin/update-movie")]
         public ActionResult UpdateMovie([FromBody] UpdateMovieDTO movie)
         {
-            var movieEntity = _mapper.Map<Movie>(movie);
-            var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(movie.MoviePoster, "");
-            movieEntity.MoviePoster = Convert.FromBase64String(data);
-            var Id = _moviesRepository.FindByTitle(movie.OldTitle).Id;
+            var movieEntity = _mapper.Map<Filme>(movie);
+            var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(movie.Poster, "");
+            movieEntity.Poster = Convert.FromBase64String(data);
+            var Id = _moviesRepository.FindByTitle(movie.TituloAntigo).Id;
             _moviesRepository.RemoveById(Id);
             movieEntity.Id = Id;
             _moviesRepository.AddItem(movieEntity);
@@ -155,19 +153,19 @@ namespace cineweb_movies_api.Controllers
         [Route("admin/delete-movie")]
         public ActionResult DeleteMovieById([FromBody] DeleteMovieDTO movie)
         {
-            var Id = _moviesRepository.FindByTitle(movie.OldTitle).Id;
+            var Id = _moviesRepository.FindByTitle(movie.TituloAntigo).Id;
             _moviesRepository.RemoveById(Id);
             return Json(true);
         }
 
         [HttpGet]
-        [Route("admin/find-by-movie-genre")]
-        public ActionResult FindByMovieGenre(string genre)
+        [Route("admin/find-by-movie-Genero")]
+        public ActionResult FindByMovieGenero(string Genero)
         {
             var adminMovies = new List<MovieDTO>();
-            var moviesByGenre = _moviesRepository.FindByGenre(genre);
+            var moviesByGenero = _moviesRepository.FindByGenre(Genero);
 
-            moviesByGenre.ForEach((item) =>
+            moviesByGenero.ForEach((item) =>
             {
                 adminMovies.Add(_mapper.Map<MovieDTO>(item));
             });
@@ -189,10 +187,10 @@ namespace cineweb_movies_api.Controllers
         }
 
         [HttpGet]
-        [Route("admin/find-by-movie-title")]
-        public ActionResult FindByMovieTitle(string title)
+        [Route("admin/find-by-movie-Titulo")]
+        public ActionResult FindByMovieTitulo(string Titulo)
         {
-            return Json(_mapper.Map<MovieDTO>(_moviesRepository.FindByTitle(title)));
+            return Json(_mapper.Map<MovieDTO>(_moviesRepository.FindByTitle(Titulo)));
         }
     }
 }

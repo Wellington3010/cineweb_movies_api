@@ -38,7 +38,7 @@ namespace cineweb_movies_api
             });
 
             services.AddControllers();
-            services.AddScoped<IBaseRepository<Movie>, MovieRepository>();
+            services.AddScoped<IBaseRepository<Filme>, MovieRepository>();
             services.AddAutoMapper(typeof(ConfigurationMapping));
 
             services.AddDbContext<MovieContext, MovieContext>(options =>

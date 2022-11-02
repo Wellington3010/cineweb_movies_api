@@ -7,23 +7,23 @@ using System.Threading.Tasks;
 
 namespace cineweb_movies_api.Entities
 {
-    [Table("movie")]
-    public class Movie
+    [Table("filme")]
+    public class Filme
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
 
         [Required]
-        public string Title { get; set; }
+        public string Titulo { get; set; }
 
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime Data { get; set; }
 
         [Required]
-        public string Genre { get; set; }
+        public string Genero { get; set; }
 
-        public byte[] MoviePoster { get; set; }
+        public byte[] Poster { get; set; }
         
         [Required]
         public string Sinopse { get; set; }

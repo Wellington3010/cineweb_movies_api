@@ -7,15 +7,15 @@ namespace cineweb_movies_api.DTO
 {
     public class CreateMovieDTO
     {
-        public string Title { get; set; }
+        public string Titulo { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime Data { get; set; }
 
-        public string Genre { get; set; }
+        public string Genero { get; set; }
 
         public bool HomeMovie { get; set; }
 
-        public string MoviePoster { get; set; }
+        public string Poster { get; set; }
 
         public string Sinopse { get; set; }
 

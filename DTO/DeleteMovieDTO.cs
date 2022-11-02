@@ -7,6 +7,6 @@ namespace cineweb_movies_api.DTO
 {
     public class DeleteMovieDTO
     {
-        public string OldTitle { get; set; }
+        public string TituloAntigo { get; set; }
     }
 }
