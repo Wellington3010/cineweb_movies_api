@@ -1,6 +1,3 @@
-using AutoMapper;
-using cineweb_movies_api.Context;
-using cineweb_movies_api.DTO;
 using cineweb_movies_api.Entities;
 using cineweb_movies_api.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -9,14 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Swashbuckle.Swagger;
 using Microsoft.EntityFrameworkCore;
 using cineweb_movies_api.Mapper;
+using cineweb_movies_api.Context;
 
 namespace cineweb_movies_api
 {
@@ -41,7 +33,7 @@ namespace cineweb_movies_api
             services.AddScoped<IBaseRepository<Filme>, MovieRepository>();
             services.AddAutoMapper(typeof(ConfigurationMapping));
 
-            services.AddDbContext<MovieContext, MovieContext>(options =>
+            services.AddDbContext<ApplicationContext, ApplicationContext>(options =>
             {
                 options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"));
             });

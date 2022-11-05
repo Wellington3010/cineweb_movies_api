@@ -12,12 +12,12 @@ namespace cineweb_movies_api.Controllers
 {
     [ApiController]
     [Route("movies")]
-    public class MoviesController : Controller
+    public class FilmeController : Controller
     {
         private IBaseRepository<Filme> _moviesRepository;
         private IMapper _mapper;
         
-        public MoviesController(IBaseRepository<Filme> repo, IMapper mapper)
+        public FilmeController(IBaseRepository<Filme> repo, IMapper mapper)
         {
             _moviesRepository = repo;
             _mapper = mapper;

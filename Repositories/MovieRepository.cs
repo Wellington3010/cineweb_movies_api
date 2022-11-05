@@ -10,30 +10,30 @@ namespace cineweb_movies_api.Repositories
 {
     public class MovieRepository : IBaseRepository<Filme>
     {
-        private MovieContext _movieContext { get; set; }
-        public MovieRepository(MovieContext movieContext)
+        private ApplicationContext _movieContext { get; set; }
+        public MovieRepository(ApplicationContext movieContext)
         {
             _movieContext = movieContext;
         }
         public void AddItem(Filme item)
         {
-            _movieContext.Movies.Add(item);
+            _movieContext.Filmes.Add(item);
             _movieContext.SaveChanges();
         }
 
         public Filme FindById(Guid id)
         {
-            return _movieContext.Movies.Where(x => x.Id == id).FirstOrDefault();
+            return _movieContext.Filmes.Where(x => x.Id == id).FirstOrDefault();
         }
 
         public IQueryable<Filme> ListItems()
         {
-            return _movieContext.Movies.AsQueryable();
+            return _movieContext.Filmes.AsQueryable();
         }
 
         public void RemoveById(Guid id)
         {
-            _movieContext.Movies.Remove(FindById(id));
+            _movieContext.Filmes.Remove(FindById(id));
             _movieContext.SaveChanges();
         }
 
@@ -45,17 +45,17 @@ namespace cineweb_movies_api.Repositories
 
         public List<Filme> FindByGenre(string genre)
         {
-            return _movieContext.Movies.Where(x => x.Genero == genre).ToList();
+            return _movieContext.Filmes.Where(x => x.Genero == genre).ToList();
         }
 
         public Filme FindByTitle(string title)
         {
-            return _movieContext.Movies.Where(x => x.Titulo == title).FirstOrDefault();
+            return _movieContext.Filmes.Where(x => x.Titulo == title).FirstOrDefault();
         }
 
         public List<Filme> FindAll()
         {
-            return _movieContext.Movies.ToList();
+            return _movieContext.Filmes.ToList();
         }
     }
 }

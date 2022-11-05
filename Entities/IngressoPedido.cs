@@ -7,15 +7,19 @@ using System.Threading.Tasks;
 
 namespace cineweb_movies_api.Entities
 {
-    [Table("ingresso")]
-    public class Ingresso
+    [Table("ingresso_pedido")]
+    public class IngressoPedido
     {
         [Key]
-        public int IdIngresso { get; set; }
+        public int Id { get; set; }
+
+        [ForeignKey("pedido")]
+        public Pedido Pedido { get; set; }
 
         [ForeignKey("filme")]
         public Filme Filme { get; set; }
 
-        public decimal Preco { get; set; }
+        [ForeignKey("ingresso")]
+        public Ingresso Ingresso { get; set; }
     }
 }
