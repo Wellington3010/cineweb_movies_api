@@ -9,8 +9,8 @@ using cineweb_movies_api.Context;
 namespace cineweb_movies_api.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20221105224154_InitialCreation")]
-    partial class InitialCreation
+    [Migration("20221105231525_TablesInitialCreation")]
+    partial class TablesInitialCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,15 +59,14 @@ namespace cineweb_movies_api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("FilmeId")
+                        .IsRequired()
+                        .HasColumnType("varbinary(16)");
+
                     b.Property<decimal>("Preco")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<byte[]>("filme")
-                        .HasColumnType("varbinary(16)");
-
                     b.HasKey("IdIngresso");
-
-                    b.HasIndex("filme");
 
                     b.ToTable("ingresso");
                 });
@@ -78,22 +77,19 @@ namespace cineweb_movies_api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("filme")
+                    b.Property<byte[]>("FilmeId")
+                        .IsRequired()
                         .HasColumnType("varbinary(16)");
 
-                    b.Property<int?>("ingresso")
+                    b.Property<int>("IngressoId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("pedido")
+                    b.Property<int>("PedidoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("filme");
-
-                    b.HasIndex("ingresso");
-
-                    b.HasIndex("pedido");
+                    b.HasIndex("PedidoId");
 
                     b.ToTable("ingresso_pedido");
                 });
@@ -112,34 +108,13 @@ namespace cineweb_movies_api.Migrations
                     b.ToTable("pedido");
                 });
 
-            modelBuilder.Entity("cineweb_movies_api.Entities.Ingresso", b =>
-                {
-                    b.HasOne("cineweb_movies_api.Entities.Filme", "Filme")
-                        .WithMany()
-                        .HasForeignKey("filme");
-
-                    b.Navigation("Filme");
-                });
-
             modelBuilder.Entity("cineweb_movies_api.Entities.IngressoPedido", b =>
                 {
-                    b.HasOne("cineweb_movies_api.Entities.Filme", "Filme")
-                        .WithMany()
-                        .HasForeignKey("filme");
-
-                    b.HasOne("cineweb_movies_api.Entities.Ingresso", "Ingresso")
-                        .WithMany()
-                        .HasForeignKey("ingresso");
-
-                    b.HasOne("cineweb_movies_api.Entities.Pedido", "Pedido")
+                    b.HasOne("cineweb_movies_api.Entities.Pedido", null)
                         .WithMany("Ingressos")
-                        .HasForeignKey("pedido");
-
-                    b.Navigation("Filme");
-
-                    b.Navigation("Ingresso");
-
-                    b.Navigation("Pedido");
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("cineweb_movies_api.Entities.Pedido", b =>

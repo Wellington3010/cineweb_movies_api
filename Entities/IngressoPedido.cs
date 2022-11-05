@@ -14,12 +14,21 @@ namespace cineweb_movies_api.Entities
         public int Id { get; set; }
 
         [ForeignKey("pedido")]
+        public int PedidoId { get; set; }
+
+        [NotMapped]
         public Pedido Pedido { get; set; }
 
         [ForeignKey("filme")]
+        public Guid FilmeId { get; set; }
+
+        [NotMapped]
         public Filme Filme { get; set; }
 
         [ForeignKey("ingresso")]
+        public int IngressoId { get; set; }
+
+        [NotMapped]
         public Ingresso Ingresso { get; set; }
     }
 }

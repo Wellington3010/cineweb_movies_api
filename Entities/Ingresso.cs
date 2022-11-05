@@ -14,8 +14,12 @@ namespace cineweb_movies_api.Entities
         public int IdIngresso { get; set; }
 
         [ForeignKey("filme")]
+        public  Guid FilmeId { get; set; }
+        
         public Filme Filme { get; set; }
 
         public decimal Preco { get; set; }
+
+        public IngressoPedido IngressoPedido { get; set; }
     }
 }

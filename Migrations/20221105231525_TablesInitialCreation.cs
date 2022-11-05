@@ -4,7 +4,7 @@ using MySql.EntityFrameworkCore.Metadata;
 
 namespace cineweb_movies_api.Migrations
 {
-    public partial class InitialCreation : Migration
+    public partial class TablesInitialCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,6 +27,20 @@ namespace cineweb_movies_api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ingresso",
+                columns: table => new
+                {
+                    IdIngresso = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    FilmeId = table.Column<byte[]>(type: "varbinary(16)", nullable: false),
+                    Preco = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ingresso", x => x.IdIngresso);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "pedido",
                 columns: table => new
                 {
@@ -40,92 +54,45 @@ namespace cineweb_movies_api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ingresso",
-                columns: table => new
-                {
-                    IdIngresso = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    filme = table.Column<byte[]>(type: "varbinary(16)", nullable: true),
-                    Preco = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ingresso", x => x.IdIngresso);
-                    table.ForeignKey(
-                        name: "FK_ingresso_filme_filme",
-                        column: x => x.filme,
-                        principalTable: "filme",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ingresso_pedido",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    pedido = table.Column<int>(type: "int", nullable: true),
-                    filme = table.Column<byte[]>(type: "varbinary(16)", nullable: true),
-                    ingresso = table.Column<int>(type: "int", nullable: true)
+                    PedidoId = table.Column<int>(type: "int", nullable: false),
+                    FilmeId = table.Column<byte[]>(type: "varbinary(16)", nullable: false),
+                    IngressoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ingresso_pedido", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ingresso_pedido_filme_filme",
-                        column: x => x.filme,
-                        principalTable: "filme",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ingresso_pedido_ingresso_ingresso",
-                        column: x => x.ingresso,
-                        principalTable: "ingresso",
-                        principalColumn: "IdIngresso",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ingresso_pedido_pedido_pedido",
-                        column: x => x.pedido,
+                        name: "FK_ingresso_pedido_pedido_PedidoId",
+                        column: x => x.PedidoId,
                         principalTable: "pedido",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ingresso_filme",
-                table: "ingresso",
-                column: "filme");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ingresso_pedido_filme",
+                name: "IX_ingresso_pedido_PedidoId",
                 table: "ingresso_pedido",
-                column: "filme");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ingresso_pedido_ingresso",
-                table: "ingresso_pedido",
-                column: "ingresso");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ingresso_pedido_pedido",
-                table: "ingresso_pedido",
-                column: "pedido");
+                column: "PedidoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ingresso_pedido");
+                name: "filme");
 
             migrationBuilder.DropTable(
                 name: "ingresso");
 
             migrationBuilder.DropTable(
-                name: "pedido");
+                name: "ingresso_pedido");
 
             migrationBuilder.DropTable(
-                name: "filme");
+                name: "pedido");
         }
     }
 }

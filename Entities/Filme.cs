@@ -33,5 +33,9 @@ namespace cineweb_movies_api.Entities
 
         [Required]
         public bool Active { get; set; }
+
+        public IngressoPedido IngressoPedido { get; set; }
+
+        public Ingresso Ingresso { get; set; }
     }
 }
