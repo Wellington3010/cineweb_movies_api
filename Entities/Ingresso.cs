@@ -19,5 +19,6 @@ namespace cineweb_movies_api.Entities
         public Filme Filme { get; set; }
 
         public decimal Preco { get; set; }
+        public int Quantidade { get; set; }
     }
 }
