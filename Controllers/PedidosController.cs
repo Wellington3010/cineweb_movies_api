@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace cineweb_movies_api.Controllers
 {
     [ApiController]
-    [Route("ingressos")]
-    public class IngressoController : Controller
+    [Route("pedidos")]
+    public class PedidosController : Controller
     {
         [Route("cadastrar")]
         public IActionResult CadastrarIngressos()
