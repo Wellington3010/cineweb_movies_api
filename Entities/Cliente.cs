@@ -17,6 +17,6 @@ namespace cineweb_movies_api.Entities
 
         public string NomeCliente { get; set; }
 
-        public List<Pedido> Pedido { get; set; }
+        public List<Pedido> Pedidos { get; set; }
     }
 }
