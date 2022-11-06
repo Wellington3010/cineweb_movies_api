@@ -10,6 +10,7 @@ namespace cineweb_movies_api.Context
         }
 
         public virtual DbSet<Filme> Filmes { get; set; }
+        public virtual DbSet<Cliente> Clientes { get; set; }
 
         public virtual DbSet<Pedido> Pedidos { get; set; }
 

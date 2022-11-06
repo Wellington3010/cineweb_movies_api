@@ -13,5 +13,11 @@ namespace cineweb_movies_api.Entities
         public List<IngressoPedido> Ingressos { get; set; }
 
         public decimal ValorTotal { get; set; }
+
+        [ForeignKey("cliente")]
+        public int IdCliente { get; set; }
+
+        [NotMapped]
+        public Cliente Cliente { get; set; }
     }
 }
