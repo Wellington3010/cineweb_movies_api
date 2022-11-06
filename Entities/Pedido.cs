@@ -8,6 +8,7 @@ namespace cineweb_movies_api.Entities
     public class Pedido
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public List<IngressoPedido> Ingressos { get; set; }

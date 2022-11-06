@@ -11,6 +11,7 @@ namespace cineweb_movies_api.Entities
     public class IngressoPedido
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [ForeignKey("pedido")]

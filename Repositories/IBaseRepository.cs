@@ -5,22 +5,22 @@ using System.Threading.Tasks;
 
 namespace cineweb_movies_api.Repositories
 {
-    public interface IBaseRepository<T>  where T : class
+    public interface IBaseRepository<T, Z>  where T : class
     {
-        T FindById(Guid id);
+        Task<T> FindById(Z id);
 
         IQueryable<T> ListItems();
 
-        void AddItem(T item);
+        Task AddItem(T item);
 
-        void RemoveById(Guid id);
+        Task RemoveById(Z id);
 
-        void Update(T item);
+        Task Update(T item);
 
-        List<T> FindByGenre(string genre);
+        Task<List<T>> FindByGenre(string genre);
 
-        List<T> FindAll();
+        Task<List<T>> FindAll();
 
-        T FindByTitle(string title);
+        Task<T> FindByTitle(string title);
     }
 }

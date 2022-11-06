@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using cineweb_movies_api.Mapper;
 using cineweb_movies_api.Context;
+using System;
 
 namespace cineweb_movies_api
 {
@@ -30,7 +31,8 @@ namespace cineweb_movies_api
             });
 
             services.AddControllers();
-            services.AddScoped<IBaseRepository<Filme>, MovieRepository>();
+            services.AddScoped<IBaseRepository<Filme, Guid>, MovieRepository>();
+            services.AddScoped<IBaseRepository<Ingresso, int>, IngressoRepository>();
             services.AddAutoMapper(typeof(ConfigurationMapping));
 
             services.AddDbContext<ApplicationContext, ApplicationContext>(options =>

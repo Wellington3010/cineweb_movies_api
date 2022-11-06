@@ -8,22 +8,23 @@ using System.Threading.Tasks;
 
 namespace cineweb_movies_api.Repositories
 {
-    public class MovieRepository : IBaseRepository<Filme>
+    public class MovieRepository : IBaseRepository<Filme, Guid>
     {
         private ApplicationContext _movieContext { get; set; }
         public MovieRepository(ApplicationContext movieContext)
         {
             _movieContext = movieContext;
         }
-        public void AddItem(Filme item)
+
+        public async Task AddItem(Filme item)
         {
             _movieContext.Filmes.Add(item);
-            _movieContext.SaveChanges();
+            await _movieContext.SaveChangesAsync();
         }
 
-        public Filme FindById(Guid id)
+        public async Task<Filme> FindById(Guid id)
         {
-            return _movieContext.Filmes.Where(x => x.Id == id).FirstOrDefault();
+            return await _movieContext.Filmes.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
         public IQueryable<Filme> ListItems()
@@ -31,31 +32,32 @@ namespace cineweb_movies_api.Repositories
             return _movieContext.Filmes.AsQueryable();
         }
 
-        public void RemoveById(Guid id)
+        public async Task RemoveById(Guid id)
         {
-            _movieContext.Filmes.Remove(FindById(id));
-            _movieContext.SaveChanges();
+            var filme = _movieContext.Filmes.Where(x => x.Id == id).FirstOrDefault();
+            _movieContext.Filmes.Remove(filme);
+            await _movieContext.SaveChangesAsync();
         }
 
-        public void Update(Filme item)
+        public async Task Update(Filme item)
         {
-            _movieContext.Entry<Filme>(item).State = EntityState.Modified;
-            _movieContext.SaveChanges();
+            _movieContext.Filmes.Update(item);
+            await _movieContext.SaveChangesAsync();
         }
 
-        public List<Filme> FindByGenre(string genre)
+        public async Task<List<Filme>> FindByGenre(string genre)
         {
-            return _movieContext.Filmes.Where(x => x.Genero == genre).ToList();
+            return  await _movieContext.Filmes.Where(x => x.Genero == genre).ToListAsync();
         }
 
-        public Filme FindByTitle(string title)
+        public async Task<Filme> FindByTitle(string title)
         {
-            return _movieContext.Filmes.Where(x => x.Titulo == title).FirstOrDefault();
+            return await _movieContext.Filmes.Where(x => x.Titulo == title).FirstOrDefaultAsync();
         }
 
-        public List<Filme> FindAll()
+        public async Task<List<Filme>> FindAll()
         {
-            return _movieContext.Filmes.ToList();
+            return await _movieContext.Filmes.ToListAsync();
         }
     }
 }

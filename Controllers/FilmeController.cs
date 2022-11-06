@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace cineweb_movies_api.Controllers
 {
@@ -14,10 +15,10 @@ namespace cineweb_movies_api.Controllers
     [Route("movies")]
     public class FilmeController : Controller
     {
-        private IBaseRepository<Filme> _moviesRepository;
+        private IBaseRepository<Filme, Guid> _moviesRepository;
         private IMapper _mapper;
         
-        public FilmeController(IBaseRepository<Filme> repo, IMapper mapper)
+        public FilmeController(IBaseRepository<Filme, Guid> repo, IMapper mapper)
         {
             _moviesRepository = repo;
             _mapper = mapper;
@@ -137,33 +138,33 @@ namespace cineweb_movies_api.Controllers
 
         [HttpPost]
         [Route("admin/update-movie")]
-        public ActionResult UpdateMovie([FromBody] UpdateMovieDTO movie)
+        public async Task<ActionResult> UpdateMovie([FromBody] UpdateMovieDTO movie)
         {
             var movieEntity = _mapper.Map<Filme>(movie);
             var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(movie.Poster, "");
             movieEntity.Poster = Convert.FromBase64String(data);
-            var Id = _moviesRepository.FindByTitle(movie.TituloAntigo).Id;
-            _moviesRepository.RemoveById(Id);
-            movieEntity.Id = Id;
-            _moviesRepository.AddItem(movieEntity);
+            var movieResult = await _moviesRepository.FindByTitle(movie.TituloAntigo);
+            await _moviesRepository.RemoveById(movieResult.Id);
+            movieEntity.Id = movieResult.Id;
+            await _moviesRepository.AddItem(movieEntity);
             return Json(true);
         }
 
         [HttpPost]
         [Route("admin/delete-movie")]
-        public ActionResult DeleteMovieById([FromBody] DeleteMovieDTO movie)
+        public async Task<ActionResult> DeleteMovieById([FromBody] DeleteMovieDTO movie)
         {
-            var Id = _moviesRepository.FindByTitle(movie.TituloAntigo).Id;
-            _moviesRepository.RemoveById(Id);
+            var movieResult = await _moviesRepository.FindByTitle(movie.TituloAntigo);
+            await _moviesRepository.RemoveById(movieResult.Id);
             return Json(true);
         }
 
         [HttpGet]
         [Route("admin/find-by-movie-Genero")]
-        public ActionResult FindByMovieGenero(string Genero)
+        public async Task<ActionResult> FindByMovieGenero(string Genero)
         {
             var adminMovies = new List<MovieDTO>();
-            var moviesByGenero = _moviesRepository.FindByGenre(Genero);
+            var moviesByGenero = await _moviesRepository.FindByGenre(Genero);
 
             moviesByGenero.ForEach((item) =>
             {
@@ -174,10 +175,10 @@ namespace cineweb_movies_api.Controllers
 
         [HttpGet]
         [Route("admin/all-movies")]
-        public ActionResult AllMovies()
+        public async Task<ActionResult> AllMovies()
         {
             var adminMovies = new List<MovieDTO>();
-            var allMovies = _moviesRepository.FindAll();
+            var allMovies = await _moviesRepository.FindAll();
 
             allMovies.ForEach((item) =>
             {

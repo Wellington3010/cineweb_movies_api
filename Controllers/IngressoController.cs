@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using cineweb_movies_api.DTO;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,9 @@ namespace cineweb_movies_api.Controllers
     [Route("ingressos")]
     public class IngressoController : Controller
     {
+        [HttpPost]
         [Route("cadastrar")]
-        public IActionResult CadastrarIngressos()
+        public IActionResult CadastrarIngressos(IngressoDTO ingressoDTO)
         {
             return View();
         }
