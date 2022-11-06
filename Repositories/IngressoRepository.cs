@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace cineweb_movies_api.Repositories
 {
-    public class IngressoRepository : IBaseRepository<Ingresso, int>
+    public class IngressoRepository : BaseRepository<Ingresso, int>
     {
         private ApplicationContext _applicationContext { get; set; }
 
@@ -17,46 +17,36 @@ namespace cineweb_movies_api.Repositories
             _applicationContext = applicationContext;
         }
 
-        public async Task<Ingresso> FindById(int id)
+        public override async Task<Ingresso> FindById(int id)
         {
             return await _applicationContext.Ingressos.Where(x => x.IdIngresso == id).FirstOrDefaultAsync();
         }
 
-        public IQueryable<Ingresso> ListItems()
+        public override IQueryable<Ingresso> ListItems()
         {
             return _applicationContext.Ingressos.AsQueryable();
         }
 
-        public async Task AddItem(Ingresso item)
+        public override async Task AddItem(Ingresso item)
         {
             _applicationContext.Ingressos.Add(item);
             await _applicationContext.SaveChangesAsync();   
         }
 
-        public async Task RemoveById(int id)
+        public override async Task RemoveById(int id)
         {
             var ingresso = _applicationContext.Ingressos.Where(x => x.IdIngresso == id).FirstOrDefault();
             _applicationContext.Ingressos.Remove(ingresso);
             await _applicationContext.SaveChangesAsync();
         }
 
-        public async Task Update(Ingresso item)
+        public override async Task Update(Ingresso item)
         {
             _applicationContext.Ingressos.Update(item);
             await _applicationContext.SaveChangesAsync();
         }
-
-        public Task<List<Ingresso>> FindByGenre(string genre)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Ingresso>> FindAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Ingresso> FindByTitle(string title)
+      
+        public override Task<List<Ingresso>> FindAll()
         {
             throw new NotImplementedException();
         }

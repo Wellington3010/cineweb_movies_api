@@ -15,10 +15,10 @@ namespace cineweb_movies_api.Controllers
     [Route("movies")]
     public class FilmeController : Controller
     {
-        private IBaseRepository<Filme, Guid> _moviesRepository;
+        private FilmeBaseRepository<Filme, Guid> _moviesRepository;
         private IMapper _mapper;
         
-        public FilmeController(IBaseRepository<Filme, Guid> repo, IMapper mapper)
+        public FilmeController(FilmeBaseRepository<Filme, Guid> repo, IMapper mapper)
         {
             _moviesRepository = repo;
             _mapper = mapper;
