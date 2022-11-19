@@ -26,9 +26,9 @@ namespace cineweb_movies_api.Repositories
             return await _applicationContext.Clientes.ToListAsync();
         }
 
-        public override async Task<Cliente> FindById(int id)
+        public override async Task<Cliente> FindById(int idUsuario)
         {
-            return await _applicationContext.Clientes.FirstOrDefaultAsync(x => x.IdCliente == id);
+            return await _applicationContext.Clientes.FirstOrDefaultAsync(x => x.IdUsuario == idUsuario);
         }
 
         public override IQueryable<Cliente> ListItems()

@@ -2,10 +2,6 @@
 using cineweb_movies_api.DTO;
 using cineweb_movies_api.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace cineweb_movies_api.Mapper
 {
@@ -21,6 +17,11 @@ namespace cineweb_movies_api.Mapper
 
             CreateMap<Filme, UserMovieDTO>().ForMember(x => x.Poster, opt => opt.MapFrom(y => "data:image/webp;base64," + Convert.ToBase64String(y.Poster)));
             CreateMap<Filme, CreateMovieDTO>().ForMember(x => x.Poster, opt => opt.MapFrom(y => "data:image/webp;base64," + Convert.ToBase64String(y.Poster)));
+
+            CreateMap<IngressoDTO, Ingresso>().ReverseMap();
+            CreateMap<IngressoPedidoDTO, IngressoPedido>().ReverseMap();
+            CreateMap<ClienteDTO, Cliente>().ForMember(x => x.IdCliente, opt => opt.Ignore()).ReverseMap();
+            CreateMap<Pedido, PedidoDTO>().ForMember(x => x.IdUsuario, opt => opt.Ignore()).ForMember(x => x.NomeCliente, opt => opt.Ignore()).ReverseMap();
 
             CreateMap<UpdateMovieDTO, Filme>().ForMember(x => x.Poster, opt => opt.Ignore());
 

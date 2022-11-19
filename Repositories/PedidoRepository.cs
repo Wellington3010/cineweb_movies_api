@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace cineweb_movies_api.Repositories
 {
-    public class PedidoRepository : BaseRepository<Pedido, int>
+    public class PedidoRepository : PedidoBaseRepository<Pedido, int>
     {
         private readonly ApplicationContext _applicationContext;
         public PedidoRepository(ApplicationContext applicationContext)
@@ -49,9 +49,9 @@ namespace cineweb_movies_api.Repositories
             await _applicationContext.SaveChangesAsync();
         }
 
-        public async Task<List<Pedido>> FindPedidosByCliente(int clienteID)
+        public override async Task<List<Pedido>> FindPedidosByCliente(int idCliente)
         {
-            return await _applicationContext.Pedidos.Where(x => x.IdCliente == clienteID).ToListAsync();
+            return await _applicationContext.Pedidos.Where(x => x.IdCliente == idCliente).ToListAsync();
         }
     }
 }
