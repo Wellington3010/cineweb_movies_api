@@ -15,8 +15,8 @@ namespace cineweb_movies_api.Controllers
     [Route("movies")]
     public class FilmeController : Controller
     {
-        private FilmeBaseRepository<Filme, Guid> _moviesRepository;
-        private IMapper _mapper;
+        private readonly FilmeBaseRepository<Filme, Guid> _moviesRepository;
+        private readonly IMapper _mapper;
         
         public FilmeController(FilmeBaseRepository<Filme, Guid> repo, IMapper mapper)
         {
@@ -30,7 +30,7 @@ namespace cineweb_movies_api.Controllers
         {
             List<UserMovieDTO> userMovies = new List<UserMovieDTO>();
 
-            var currentMovies = _moviesRepository.ListItems().Where(x => x.HomeMovie).ToList();
+            var currentMovies = _moviesRepository.ListItems().Where(x => x.HomeMovie == true).ToList();
 
             currentMovies.ForEach((item) =>
             {

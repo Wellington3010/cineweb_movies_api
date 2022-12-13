@@ -7,9 +7,9 @@ namespace cineweb_movies_api.DTO
 {
     public class IngressoDTO
     {
-        public Guid FilmeId { get; set; }
+        public string Titulo { get; set; }
 
-        public decimal Preco { get; set; }
+        public int Preco { get; set; }
 
         public int Quantidade { get; set; }
     }

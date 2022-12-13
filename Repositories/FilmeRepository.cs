@@ -52,12 +52,12 @@ namespace cineweb_movies_api.Repositories
 
         public override async Task<Filme> FindByTitle(string title)
         {
-            return await _movieContext.Filmes.Where(x => x.Titulo == title).FirstOrDefaultAsync();
+            return await _movieContext.Filmes.Include(x => x.Ingresso).Where(x => x.Titulo == title).FirstOrDefaultAsync();
         }
 
         public override async Task<List<Filme>> FindAll()
         {
-            return await _movieContext.Filmes.ToListAsync();
+            return await _movieContext.Filmes.Include(x => x.Ingresso).ToListAsync();
         }
     }
 }
