@@ -12,10 +12,8 @@ namespace cineweb_movies_api.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdCliente { get; set; }
 
-        public int IdUsuario { get; set; }
+        public string CPF { get; set; }
 
         public string NomeCliente { get; set; }
-
-        public List<Pedido> Pedidos { get; set; }
     }
 }

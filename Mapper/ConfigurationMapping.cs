@@ -19,11 +19,13 @@ namespace cineweb_movies_api.Mapper
 
             CreateMap<Filme, UserMovieDTO>()
                 .ForMember(x => x.Poster, opt => opt.MapFrom(y => "data:image/webp;base64," + Convert.ToBase64String(y.Poster)))
-                .ForMember(x => x.QuantidadeIngressos, opt => opt.MapFrom(y => y.Ingresso.Quantidade));
+                .ForMember(x => x.QuantidadeIngressos, opt => opt.MapFrom(y => y.Ingresso.Quantidade))
+                .ForMember(x => x.Preco, opt => opt.MapFrom(y => y.Ingresso.Preco));
 
             CreateMap<IngressoPedidoDTO, IngressoPedido>().ReverseMap();
             CreateMap<ClienteDTO, Cliente>().ForMember(x => x.IdCliente, opt => opt.Ignore()).ReverseMap();
-            CreateMap<Pedido, PedidoDTO>().ForMember(x => x.IdUsuario, opt => opt.Ignore()).ForMember(x => x.NomeCliente, opt => opt.Ignore()).ReverseMap();
+            CreateMap<Pedido, PedidoDTO>()
+                .ForMember(x => x.Titulos, opt => opt.Ignore()).ReverseMap();
 
             CreateMap<UpdateMovieDTO, Filme>().ForMember(x => x.Poster, opt => opt.Ignore());
             CreateMap<Filme, CreateMovieDTO>().ForMember(x => x.Poster, opt => opt.MapFrom(y => "data:image/webp;base64," + Convert.ToBase64String(y.Poster)));

@@ -24,12 +24,12 @@ namespace cineweb_movies_api.Repositories
 
         public override async Task<Filme> FindById(Guid id)
         {
-            return await _movieContext.Filmes.Where(x => x.Id == id).FirstOrDefaultAsync();
+            return await _movieContext.Filmes.Include(x => x.Ingresso).Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
         public override IQueryable<Filme> ListItems()
         {
-            return _movieContext.Filmes.AsQueryable();
+            return _movieContext.Filmes.Include(x => x.Ingresso).AsQueryable();
         }
 
         public override async Task RemoveById(Guid id)
@@ -47,7 +47,7 @@ namespace cineweb_movies_api.Repositories
 
         public override async Task<List<Filme>> FindByGenre(string genre)
         {
-            return await _movieContext.Filmes.Where(x => x.Genero == genre).ToListAsync();
+            return await _movieContext.Filmes.Include(x => x.Ingresso).Where(x => x.Genero == genre).ToListAsync();
         }
 
         public override async Task<Filme> FindByTitle(string title)

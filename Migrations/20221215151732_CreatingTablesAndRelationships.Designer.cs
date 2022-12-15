@@ -9,8 +9,8 @@ using cineweb_movies_api.Context;
 namespace cineweb_movies_api.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20221106000300_CreatingClienteTableAndRelationships")]
-    partial class CreatingClienteTableAndRelationships
+    [Migration("20221215151732_CreatingTablesAndRelationships")]
+    partial class CreatingTablesAndRelationships
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,8 +25,8 @@ namespace cineweb_movies_api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("IdUsuario")
-                        .HasColumnType("int");
+                    b.Property<string>("CPF")
+                        .HasColumnType("text");
 
                     b.Property<string>("NomeCliente")
                         .HasColumnType("text");
@@ -83,6 +83,9 @@ namespace cineweb_movies_api.Migrations
                     b.Property<decimal>("Preco")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("int");
+
                     b.HasKey("IdIngresso");
 
                     b.HasIndex("FilmeId")
@@ -126,9 +129,6 @@ namespace cineweb_movies_api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("ClienteIdCliente")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdCliente")
                         .HasColumnType("int");
 
@@ -136,8 +136,6 @@ namespace cineweb_movies_api.Migrations
                         .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClienteIdCliente");
 
                     b.ToTable("pedido");
                 });
@@ -172,18 +170,6 @@ namespace cineweb_movies_api.Migrations
                         .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("cineweb_movies_api.Entities.Pedido", b =>
-                {
-                    b.HasOne("cineweb_movies_api.Entities.Cliente", null)
-                        .WithMany("Pedido")
-                        .HasForeignKey("ClienteIdCliente");
-                });
-
-            modelBuilder.Entity("cineweb_movies_api.Entities.Cliente", b =>
-                {
-                    b.Navigation("Pedido");
                 });
 
             modelBuilder.Entity("cineweb_movies_api.Entities.Filme", b =>

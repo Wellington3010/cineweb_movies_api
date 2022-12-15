@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace cineweb_movies_api.Repositories
 {
-    public class ClienteRepository : BaseRepository<Cliente, int>
+    public class ClienteRepository : ClienteBaseRepository<Cliente, int, string>
     {
         private readonly ApplicationContext _applicationContext;
         public ClienteRepository(ApplicationContext appplicationContext)
@@ -26,9 +26,14 @@ namespace cineweb_movies_api.Repositories
             return await _applicationContext.Clientes.ToListAsync();
         }
 
-        public override async Task<Cliente> FindById(int idUsuario)
+        public override async Task<Cliente> FindByCPF(string CPF)
         {
-            return await _applicationContext.Clientes.FirstOrDefaultAsync(x => x.IdUsuario == idUsuario);
+            return await _applicationContext.Clientes.FirstOrDefaultAsync(x => x.CPF == CPF);
+        }
+
+        public override Task<Cliente> FindById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public override IQueryable<Cliente> ListItems()

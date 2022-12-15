@@ -7,11 +7,11 @@ namespace cineweb_movies_api.DTO
 {
     public class PedidoDTO
     {
-        public List<IngressoPedidoDTO> Ingressos { get; set; }
+        public List<string> Titulos { get; set; }
 
-        public decimal ValorTotal { get; set; }
+        public int ValorTotal { get; set; }
 
-        public int IdUsuario { get; set; }
+        public string CPF { get; set; }
 
         public string NomeCliente { get; set; }
     }

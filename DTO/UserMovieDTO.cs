@@ -21,5 +21,6 @@ namespace cineweb_movies_api.DTO
 
         public bool Active { get; set; }
         public int QuantidadeIngressos { get; set; }
+        public int Preco { get; set; }
     }
 }

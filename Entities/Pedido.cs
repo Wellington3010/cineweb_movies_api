@@ -15,10 +15,6 @@ namespace cineweb_movies_api.Entities
 
         public decimal ValorTotal { get; set; }
 
-        [ForeignKey("cliente")]
         public int IdCliente { get; set; }
-
-        [NotMapped]
-        public Cliente Cliente { get; set; }
     }
 }
