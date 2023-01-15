@@ -76,18 +76,21 @@ namespace cineweb_movies_api.Controllers
             return Ok();
         }
 
+        [HttpDelete]
         [Route("deletar")]
         public IActionResult DeletarPedido()
         {
             return View();
         }
 
+        [HttpPut]
         [Route("atualizar")]
         public IActionResult AtualizarPedido()
         {
             return View();
         }
 
+        [HttpGet]
         [Route("listar")]
         public async Task<IActionResult> ListarPedidos(int IdUsuario)
         {

@@ -59,6 +59,7 @@ namespace cineweb_movies_api.Controllers
             return Ok();
         }
 
+        [HttpGet]
         [Route("listar")]
         public IActionResult ListarIngressos()
         {
