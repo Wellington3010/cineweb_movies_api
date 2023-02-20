@@ -12,6 +12,8 @@ namespace cineweb_movies_api.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        public Guid CodigoPedido { get; set; }
+
         [ForeignKey("filme")]
         public Guid FilmeId { get; set; }
 
@@ -22,7 +24,7 @@ namespace cineweb_movies_api.Entities
         public int IdIngresso { get; set; }
 
         [NotMapped]
-        public Ingresso Ingresso { get; set; }
+        public List<Ingresso> Ingressos { get; set; }
 
         public decimal ValorTotal { get; set; }
 
