@@ -24,7 +24,7 @@ namespace cineweb_movies_api.Entities
         public int IdIngresso { get; set; }
 
         [NotMapped]
-        public List<Ingresso> Ingressos { get; set; }
+        public Ingresso Ingresso { get; set; }
 
         public decimal ValorTotal { get; set; }
 

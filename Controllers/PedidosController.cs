@@ -38,6 +38,7 @@ namespace cineweb_movies_api.Controllers
         public async Task<IActionResult> CadastrarPedido(PedidoDTO pedidoDTO)
         {
             var pedido = _mapper.Map<Pedido>(pedidoDTO);
+            pedido.CodigoPedido = Guid.NewGuid();
             var cliente = await _clientesRepository.FindByCPF(pedidoDTO.CPF);
 
             if (cliente is not null)
@@ -66,17 +67,27 @@ namespace cineweb_movies_api.Controllers
                 pedido.IdIngresso = ingressos.IdIngresso;
                 ingressos.Quantidade -= 1;
                 _ingressoBaseRepository.Update(ingressos);
+
+                var novoPedido = new Pedido
+                {
+                    FilmeId = pedido.FilmeId,
+                    IdCliente = pedido.IdCliente,
+                    IdIngresso = pedido.IdIngresso,
+                    CodigoPedido = pedido.CodigoPedido,
+                    ValorTotal = pedido.ValorTotal,
+                };
+
+                try
+                {
+                    _pedidosRepository.AddItem(novoPedido);
+                }
+                catch (Exception ex)
+                {
+                    BadRequest();
+                }
             });
 
-            try
-            {
-                await _pedidosRepository.AddItem(pedido);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest();
-            }
+            return Ok();
         }
 
         [HttpDelete]
