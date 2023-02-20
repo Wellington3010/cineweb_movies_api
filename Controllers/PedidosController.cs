@@ -52,8 +52,6 @@ namespace cineweb_movies_api.Controllers
                 pedido.IdCliente = cliente.IdCliente;
             }
 
-            await _pedidosRepository.AddItem(pedido);
-            var pedidoAtual = _pedidosRepository.FindPedidosByCliente(cliente.IdCliente).Result.Last();
 
             pedidoDTO.Titulos.ForEach((item) =>
             {
@@ -70,12 +68,15 @@ namespace cineweb_movies_api.Controllers
                 _ingressoBaseRepository.Update(ingressos);
             });
 
-            bool retorno = await _pedidosRepository.UpdatePedido(pedido);
-
-            if (retorno)
+            try
+            {
+                await _pedidosRepository.AddItem(pedido);
                 return Ok();
-
-            return BadRequest(); 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpDelete]
