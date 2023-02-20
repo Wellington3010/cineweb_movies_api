@@ -14,7 +14,6 @@ namespace cineweb_movies_api.Mapper
 
             CreateMap<IngressoDTO, Ingresso>()
                 .ForMember(x => x.Filme, opt => opt.Ignore())
-                .ForMember(x => x.IngressoPedido, opt => opt.Ignore())
                 .ForMember(x => x.FilmeId, opt => opt.Ignore()).ReverseMap();
 
             CreateMap<Filme, UserMovieDTO>()
@@ -22,7 +21,6 @@ namespace cineweb_movies_api.Mapper
                 .ForMember(x => x.QuantidadeIngressos, opt => opt.MapFrom(y => y.Ingresso.Quantidade))
                 .ForMember(x => x.Preco, opt => opt.MapFrom(y => y.Ingresso.Preco));
 
-            CreateMap<IngressoPedidoDTO, IngressoPedido>().ReverseMap();
             CreateMap<ClienteDTO, Cliente>().ForMember(x => x.IdCliente, opt => opt.Ignore()).ReverseMap();
             CreateMap<Pedido, PedidoDTO>()
                 .ForMember(x => x.Titulos, opt => opt.Ignore()).ReverseMap();

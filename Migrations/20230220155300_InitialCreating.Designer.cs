@@ -9,8 +9,8 @@ using cineweb_movies_api.Context;
 namespace cineweb_movies_api.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20221215151732_CreatingTablesAndRelationships")]
-    partial class CreatingTablesAndRelationships
+    [Migration("20230220155300_InitialCreating")]
+    partial class InitialCreating
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -94,7 +94,7 @@ namespace cineweb_movies_api.Migrations
                     b.ToTable("ingresso");
                 });
 
-            modelBuilder.Entity("cineweb_movies_api.Entities.IngressoPedido", b =>
+            modelBuilder.Entity("cineweb_movies_api.Entities.Pedido", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -104,38 +104,23 @@ namespace cineweb_movies_api.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(16)");
 
-                    b.Property<int>("IngressoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FilmeId")
-                        .IsUnique();
-
-                    b.HasIndex("IngressoId")
-                        .IsUnique();
-
-                    b.HasIndex("PedidoId");
-
-                    b.ToTable("ingresso_pedido");
-                });
-
-            modelBuilder.Entity("cineweb_movies_api.Entities.Pedido", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
                     b.Property<int>("IdCliente")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdIngresso")
                         .HasColumnType("int");
 
                     b.Property<decimal>("ValorTotal")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<int?>("ingresso")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("FilmeId");
+
+                    b.HasIndex("ingresso");
 
                     b.ToTable("pedido");
                 });
@@ -151,42 +136,26 @@ namespace cineweb_movies_api.Migrations
                     b.Navigation("Filme");
                 });
 
-            modelBuilder.Entity("cineweb_movies_api.Entities.IngressoPedido", b =>
+            modelBuilder.Entity("cineweb_movies_api.Entities.Pedido", b =>
                 {
-                    b.HasOne("cineweb_movies_api.Entities.Filme", null)
-                        .WithOne("IngressoPedido")
-                        .HasForeignKey("cineweb_movies_api.Entities.IngressoPedido", "FilmeId")
+                    b.HasOne("cineweb_movies_api.Entities.Filme", "Filme")
+                        .WithMany()
+                        .HasForeignKey("FilmeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("cineweb_movies_api.Entities.Ingresso", null)
-                        .WithOne("IngressoPedido")
-                        .HasForeignKey("cineweb_movies_api.Entities.IngressoPedido", "IngressoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("cineweb_movies_api.Entities.Ingresso", "Ingresso")
+                        .WithMany()
+                        .HasForeignKey("ingresso");
 
-                    b.HasOne("cineweb_movies_api.Entities.Pedido", null)
-                        .WithMany("Ingressos")
-                        .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Filme");
+
+                    b.Navigation("Ingresso");
                 });
 
             modelBuilder.Entity("cineweb_movies_api.Entities.Filme", b =>
                 {
                     b.Navigation("Ingresso");
-
-                    b.Navigation("IngressoPedido");
-                });
-
-            modelBuilder.Entity("cineweb_movies_api.Entities.Ingresso", b =>
-                {
-                    b.Navigation("IngressoPedido");
-                });
-
-            modelBuilder.Entity("cineweb_movies_api.Entities.Pedido", b =>
-                {
-                    b.Navigation("Ingressos");
                 });
 #pragma warning restore 612, 618
         }

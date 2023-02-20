@@ -15,7 +15,5 @@ namespace cineweb_movies_api.Context
         public virtual DbSet<Pedido> Pedidos { get; set; }
 
         public virtual DbSet<Ingresso> Ingressos { get; set; }
-
-        public virtual DbSet<IngressoPedido> IngressosPedidos { get; set; }
     }
 }

@@ -54,26 +54,28 @@ namespace cineweb_movies_api.Controllers
 
             await _pedidosRepository.AddItem(pedido);
             var pedidoAtual = _pedidosRepository.FindPedidosByCliente(cliente.IdCliente).Result.Last();
-            pedido.Ingressos = new List<IngressoPedido>();
 
             pedidoDTO.Titulos.ForEach((item) =>
             {
-                var filme = _moviesRepository.FindByTitle(item).Result;
-                var ingresso = _ingressoBaseRepository.ListarIngressosPorFilme(filme.Id).Result.FirstOrDefault();
+                pedido.FilmeId = _moviesRepository.FindByTitle(item).Result.Id;
+                var ingressos = _ingressoBaseRepository.ListarIngressosPorFilme(pedido.FilmeId).Result.FirstOrDefault();
 
-                pedido.Ingressos.Add(new IngressoPedido
+                if(!(ingressos.Quantidade > 0))
                 {
-                    PedidoId = pedidoAtual.Id,
-                    Pedido = pedidoAtual,
-                    Filme = filme,
-                    FilmeId = filme.Id,
-                    Ingresso = ingresso,
-                    IngressoId = ingresso.IdIngresso
-                });
+                   BadRequest("Não existe mais ingressos disponíveis para o filme");
+                }
+
+                pedido.IdIngresso = ingressos.IdIngresso;
+                ingressos.Quantidade -= 1;
+                _ingressoBaseRepository.Update(ingressos);
             });
 
-            await _pedidosRepository.Update(pedido);
-            return Ok();
+            bool retorno = await _pedidosRepository.UpdatePedido(pedido);
+
+            if (retorno)
+                return Ok();
+
+            return BadRequest(); 
         }
 
         [HttpDelete]

@@ -4,7 +4,7 @@ using MySql.EntityFrameworkCore.Metadata;
 
 namespace cineweb_movies_api.Migrations
 {
-    public partial class CreatingTablesAndRelationships : Migration
+    public partial class InitialCreating : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,20 +41,6 @@ namespace cineweb_movies_api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "pedido",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    ValorTotal = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
-                    IdCliente = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_pedido", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ingresso",
                 columns: table => new
                 {
@@ -76,35 +62,30 @@ namespace cineweb_movies_api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ingresso_pedido",
+                name: "pedido",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    PedidoId = table.Column<int>(type: "int", nullable: false),
                     FilmeId = table.Column<byte[]>(type: "varbinary(16)", nullable: false),
-                    IngressoId = table.Column<int>(type: "int", nullable: false)
+                    IdIngresso = table.Column<int>(type: "int", nullable: false),
+                    ValorTotal = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
+                    IdCliente = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ingresso_pedido", x => x.Id);
+                    table.PrimaryKey("PK_pedido", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ingresso_pedido_filme_FilmeId",
+                        name: "FK_pedido_filme_FilmeId",
                         column: x => x.FilmeId,
                         principalTable: "filme",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ingresso_pedido_ingresso_IngressoId",
-                        column: x => x.IngressoId,
+                        name: "FK_pedido_ingresso_ingresso",
+                        column: x => x.IdIngresso,
                         principalTable: "ingresso",
                         principalColumn: "IdIngresso",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ingresso_pedido_pedido_PedidoId",
-                        column: x => x.PedidoId,
-                        principalTable: "pedido",
-                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -115,21 +96,14 @@ namespace cineweb_movies_api.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ingresso_pedido_FilmeId",
-                table: "ingresso_pedido",
-                column: "FilmeId",
-                unique: true);
+                name: "IX_pedido_FilmeId",
+                table: "pedido",
+                column: "FilmeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ingresso_pedido_IngressoId",
-                table: "ingresso_pedido",
-                column: "IngressoId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ingresso_pedido_PedidoId",
-                table: "ingresso_pedido",
-                column: "PedidoId");
+                name: "IX_pedido_ingresso",
+                table: "pedido",
+                column: "IdIngresso");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -138,13 +112,10 @@ namespace cineweb_movies_api.Migrations
                 name: "cliente");
 
             migrationBuilder.DropTable(
-                name: "ingresso_pedido");
+                name: "pedido");
 
             migrationBuilder.DropTable(
                 name: "ingresso");
-
-            migrationBuilder.DropTable(
-                name: "pedido");
 
             migrationBuilder.DropTable(
                 name: "filme");

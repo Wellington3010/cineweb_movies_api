@@ -49,6 +49,21 @@ namespace cineweb_movies_api.Repositories
             await _applicationContext.SaveChangesAsync();
         }
 
+        public override async Task<bool> UpdatePedido(Pedido pedido)
+        {
+            try
+            {
+                _applicationContext.Pedidos.Update(pedido);
+                await _applicationContext.SaveChangesAsync();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+            
+        }
+
         public override async Task<List<Pedido>> FindPedidosByCliente(int idCliente)
         {
             return await _applicationContext.Pedidos.Where(x => x.IdCliente == idCliente).ToListAsync();

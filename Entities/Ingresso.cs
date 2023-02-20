@@ -22,7 +22,5 @@ namespace cineweb_movies_api.Entities
         public decimal Preco { get; set; }
 
         public int Quantidade { get; set; }
-
-        public IngressoPedido IngressoPedido { get; set; }
     }
 }
