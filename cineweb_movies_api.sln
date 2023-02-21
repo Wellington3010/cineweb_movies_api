@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cineweb_movies_api", "cineweb_movies_api.csproj", "{6753E509-2FDF-4D45-817F-8B0D893D0BD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cineweb_movies_api_test", "..\cineweb_movies_api_test\cineweb_movies_api_test.csproj", "{7081FBF6-7C6F-4572-8BFD-6597F5CA6C35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cineweb_movies_api_test", "..\cineweb_movies_api_test\cineweb_movies_api_test.csproj", "{7081FBF6-7C6F-4572-8BFD-6597F5CA6C35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testes", "Testes", "{7C14F9FC-527D-4581-A78E-A3DEE662E212}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +26,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7081FBF6-7C6F-4572-8BFD-6597F5CA6C35} = {7C14F9FC-527D-4581-A78E-A3DEE662E212}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6FB7E3E9-E50F-4BFF-A7EC-E0FE6B5BBB26}
