@@ -51,9 +51,9 @@ namespace cineweb_movies_api.Repositories
             throw new NotImplementedException();
         }
 
-        public override async Task<List<Ingresso>> ListarIngressosPorFilme(Guid FilmeId)
+        public override async Task<Ingresso> ListarIngressosPorFilme(Guid FilmeId)
         {
-            return await _applicationContext.Ingressos.Where(x => x.FilmeId == FilmeId).ToListAsync();
+            return await _applicationContext.Ingressos.Where(x => x.FilmeId == FilmeId).FirstOrDefaultAsync();
         }
     }
 }

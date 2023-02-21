@@ -7,6 +7,6 @@ namespace cineweb_movies_api.Repositories
 {
     public abstract class IngressoBaseRepository<T, Z, Y> : BaseRepository<T, Z> where T : class
     {
-        public abstract Task<List<T>> ListarIngressosPorFilme(Y FilmeId);
+        public abstract Task<T> ListarIngressosPorFilme(Y FilmeId);
     }
 }

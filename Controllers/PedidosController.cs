@@ -33,10 +33,17 @@ namespace cineweb_movies_api.Controllers
             _mapper = mapper;
         }
 
+        public PedidosController Instance()
+        {
+            return this;
+        }
+
         [HttpPost]
         [Route("cadastrar")]
         public async Task<IActionResult> CadastrarPedido(PedidoDTO pedidoDTO)
         {
+            bool pedidoDeFilmeSemIngressoCadastrado = false;
+            List<Pedido> pedidosParaCadastro = new List<Pedido>();
             var pedido = _mapper.Map<Pedido>(pedidoDTO);
             pedido.CodigoPedido = Guid.NewGuid();
             var cliente = await _clientesRepository.FindByCPF(pedidoDTO.CPF);
@@ -57,16 +64,15 @@ namespace cineweb_movies_api.Controllers
             pedidoDTO.Titulos.ForEach((item) =>
             {
                 pedido.FilmeId = _moviesRepository.FindByTitle(item).Result.Id;
-                var ingressos = _ingressoBaseRepository.ListarIngressosPorFilme(pedido.FilmeId).Result.FirstOrDefault();
+                var ingressos = _ingressoBaseRepository.ListarIngressosPorFilme(pedido.FilmeId).Result;
 
                 if(!(ingressos.Quantidade > 0))
                 {
-                   BadRequest("Não existe mais ingressos disponíveis para o filme");
+                   pedidoDeFilmeSemIngressoCadastrado = true;
                 }
 
                 pedido.IdIngresso = ingressos.IdIngresso;
-                ingressos.Quantidade -= 1;
-                _ingressoBaseRepository.Update(ingressos);
+               
 
                 var novoPedido = new Pedido
                 {
@@ -77,13 +83,26 @@ namespace cineweb_movies_api.Controllers
                     ValorTotal = pedido.ValorTotal,
                 };
 
+                pedidosParaCadastro.Add(novoPedido);
+            });
+
+            if(pedidoDeFilmeSemIngressoCadastrado)
+            {
+                return BadRequest();
+            }
+
+            pedidosParaCadastro.ForEach((item) =>
+            {
                 try
                 {
-                    _pedidosRepository.AddItem(novoPedido);
+                    var ingressos = _ingressoBaseRepository.ListarIngressosPorFilme(item.FilmeId).Result;
+                    ingressos.Quantidade -= 1;
+                    _ingressoBaseRepository.Update(ingressos);
+                    _pedidosRepository.AddItem(item);
                 }
                 catch (Exception ex)
                 {
-                    BadRequest();
+                    throw new Exception(ex.Message);
                 }
             });
 
